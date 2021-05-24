@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Cadastrar - Cachorro</title>
+</head>
+
+<body>
+    <div class="container">
+        <form id="formulario" method="post">
+            <div class="form-group">
+                <h1 class="alert alert-primary">Cadastro de Cachorro</h1>
+
+                <span id="msg"></span>
+                <label for=""></label>
+                <input type="text" class="form-control"  id="nome" aria-describedby="emailHelp"
+                    placeholder="Idade">
+                    <div id="emailHelp" class="form-text">Idade do cachorro em meses!</div>
+
+                <label for="exampleInputEmail1"></label>
+                <input type="text" class="form-control" id="raca" minlength="3" require aria-describedby="emailHelp"
+                    placeholder="Raça">
+
+                <label for="exampleInputEmail1"></label>
+                <input type="text" class="form-control" id="cor" minlength="3" require aria-describedby="emailHelp"
+                    placeholder="Cor">
+            </div>
+
+            <button type="submit" id="meu-submit" class="btn btn-primary">Cadastrar</button>
+            <a href="./index.html" class="btn btn-danger">Voltar</a>
+        </form>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+        </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+        </script>
+
+    <script>
+        $('#formulario').on('submit', function(event){
+        event.preventDefault()
+        if($('#nome').val() == ""){
+            $("#msg").html('<div class="alert alert-danger" role="alert">Preencha o campo Idade!</div>')
+        }else if($('#raca').val() == ""){
+             $("#msg").html('<div class="alert alert-danger" role="alert">Preencha o campo Raça!</div>')
+        }else if($('#cor').val() == ""){
+             $("#msg").html('<div class="alert alert-danger" role="alert">Preencha o campo Cor!</div>')
+        }else{
+        // Evento que é executado ao clicar no botão de enviar
+        document.getElementById("meu-submit").onclick = function (e) {
+            //guardando informações dos inputs
+            var nome = document.getElementById('nome').value
+            var raca = document.getElementById('raca').value
+            var cor = document.getElementById('cor').value
+
+            //fazendo conexao com API
+            fetch('http://localhost:3000/dogs', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    raca: raca,
+                    cor: cor
+                })
+            }).then(res => res.json())
+                .then(res => console.log(res));
+
+            e.preventDefault();
+            //redirecionando a pagina
+            window.location.href = "./index.html";
+        }
+    }
+})
+
+    </script>
+</body>
+
+</html>
